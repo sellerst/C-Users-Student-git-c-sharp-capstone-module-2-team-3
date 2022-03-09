@@ -9,10 +9,10 @@ namespace TenmoServer.DAO
     public interface ITransferDao
     {
         //See All Transfers
-        List<Transfer> SeeAllTransfer();
+        List<Transfer> GetAllTransfers(int Id);
 
         //See specific Transfer by ID
-        Transfer SeeTransferById(int Id);
+        Transfer GetTransferById(int Id);
 
 
     }

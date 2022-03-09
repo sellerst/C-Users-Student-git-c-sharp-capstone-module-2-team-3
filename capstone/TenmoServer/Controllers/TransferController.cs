@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace TenmoServer.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class TransferController
     {
     }
