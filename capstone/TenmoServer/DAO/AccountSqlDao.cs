@@ -45,9 +45,59 @@ namespace TenmoServer.DAO
         }
 
         //Send Money
-        public Account SendMoney(decimal moneyToTransfer, Account accountId)
+        public void SendMoney(decimal moneyToTransfer, int accountId) // account to void because update??
         {
-            return null;
+            //update
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance + @moneytotransfer WHERE account_id = @account_id", conn);
+                    cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
+                    cmd.Parameters.AddWithValue("@account_id", accountId);
+
+                    cmd.ExecuteNonQuery(); 
+                }
+            }
+            catch(SqlException)
+            {
+              throw;
+            }
+            
+
+        }
+
+        public List<Account> GetListOfUsers()
+        {
+            List<Account> accounts = new List<Account>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("SELECT account_id, user_id FROM account", conn);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while(reader.Read())
+                    {
+                        Account account = GetAccountFromReader(reader);
+                        accounts.Add(account);
+                    }
+                        
+                }
+
+            }
+            catch (SqlException)
+            {
+
+                throw;
+            }
+            return accounts;
         }
 
         private Account GetAccountFromReader(SqlDataReader reader)
