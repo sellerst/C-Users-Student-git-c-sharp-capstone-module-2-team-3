@@ -45,10 +45,10 @@ namespace TenmoServer.DAO
         }
 
         //Send Money
-            //I can't send more TE Bucks than I have in my account.
-             //I can't send a zero or negative amount.
-            //A Sending Transfer has an initial status of Approved.
-        public void SendMoney(decimal moneyToTransfer, int toAccountId, int fromAccountId) // account to void because update??
+        //I can't send more TE Bucks than I have in my account.
+        //I can't send a zero or negative amount.
+        //A Sending Transfer has an initial status of Approved.
+        public void SendMoney(decimal moneyToTransfer, int toAccountId) // account to void because update??
         {
             //update
             try
@@ -57,22 +57,43 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance + @moneytotransfer WHERE account_id = @toAccount_id;" +
-                                                    "UPDATE account SET balance = balance - @moneytotransfer WHERE account_id = @fromAccount_id", conn);
+                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance + @moneytotransfer WHERE account_id = @Account_id;", conn);
                     cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
-                    cmd.Parameters.AddWithValue("@toAccount_id", toAccountId);
-                    cmd.Parameters.AddWithValue("@fromAccount_id", fromAccountId);
+                    cmd.Parameters.AddWithValue("@Account_id", toAccountId);
 
-                    cmd.ExecuteNonQuery(); 
+                    cmd.ExecuteNonQuery();
                 }
             }
-            catch(SqlException)
+            catch (SqlException)
             {
-              throw;
+                throw;
             }
-            
-
         }
+
+        public void UpdateAccountBalance(decimal moneyToTransfer, int fromAccountId)
+        {
+            //update
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance - @moneytotransfer WHERE account_id = @Account_id", conn);
+                    cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
+                    cmd.Parameters.AddWithValue("@Account_id", fromAccountId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+        }
+
+
+
 
         public List<Account> GetListOfUsers()
         {
@@ -88,12 +109,12 @@ namespace TenmoServer.DAO
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         Account account = GetAccountFromReader(reader);
                         accounts.Add(account);
                     }
-                        
+
                 }
 
             }

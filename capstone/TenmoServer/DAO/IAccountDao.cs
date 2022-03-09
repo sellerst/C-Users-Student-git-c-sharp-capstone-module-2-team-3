@@ -12,7 +12,9 @@ namespace TenmoServer.DAO
         Account GetBalance(int id);
 
         //Send Money
-        void SendMoney(decimal moneyToTransfer, int toAccountId, int fromAccountId);
+        void SendMoney(decimal moneyToTransfer, int AccountId);
+
+        void UpdateAccountBalance(decimal moneyToTransfer, int AccountId);
 
         List<Account> GetListOfUsers();
 
