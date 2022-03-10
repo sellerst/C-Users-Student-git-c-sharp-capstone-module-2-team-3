@@ -45,7 +45,7 @@ namespace TenmoServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult SendMoney(decimal moneyToTransfer, int id)
+        public ActionResult SendMoney_UpdateReceiversBalance(decimal moneyToTransfer, int id)
         {
             
             Account toAccountTransfer = accountDao.GetBalance(id);
@@ -56,13 +56,13 @@ namespace TenmoServer.Controllers
             }
             else
             {
-                accountDao.SendMoney(moneyToTransfer, id);
+                accountDao.SendMoney_UpdateReceiversBalance(moneyToTransfer, id);
                 return Ok();
             }
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateAccount(decimal moneyToTransfer, int id)
+        public ActionResult UpdateSendersBalance(decimal moneyToTransfer, int id)
         {
             //int userId = Int32.Parse(User.FindFirst("sub")?.Value);
             Account toAccountTransfer = accountDao.GetBalance(id);
@@ -73,7 +73,7 @@ namespace TenmoServer.Controllers
             }
             else
             {
-                accountDao.UpdateAccountBalance(moneyToTransfer, id);
+                accountDao.UpdateSendersBalance(moneyToTransfer, id);
                 return Ok();
             }
         }

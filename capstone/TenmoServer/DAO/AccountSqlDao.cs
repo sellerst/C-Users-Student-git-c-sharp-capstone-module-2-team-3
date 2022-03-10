@@ -48,7 +48,7 @@ namespace TenmoServer.DAO
         //I can't send more TE Bucks than I have in my account.
         //I can't send a zero or negative amount.
         //A Sending Transfer has an initial status of Approved.
-        public void SendMoney(decimal moneyToTransfer, int toAccountId) // account to void because update??
+        public void SendMoney_UpdateReceiversBalance(decimal moneyToTransfer, int toAccountId) // account to void because update??
         {
             //update
             try
@@ -70,7 +70,7 @@ namespace TenmoServer.DAO
             }
         }
 
-        public void UpdateAccountBalance(decimal moneyToTransfer, int fromAccountId)
+        public void UpdateSendersBalance(decimal moneyToTransfer, int fromAccountId)
         {
             //update
             try
@@ -91,8 +91,6 @@ namespace TenmoServer.DAO
                 throw;
             }
         }
-
-
 
 
         public List<Account> GetListOfUsers()

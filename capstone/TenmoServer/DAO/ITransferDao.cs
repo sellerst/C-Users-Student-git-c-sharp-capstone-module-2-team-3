@@ -14,6 +14,9 @@ namespace TenmoServer.DAO
         //See specific Transfer by ID
         Transfer GetTransferById(int Id);
 
+        Transfer CreateTransfer(decimal amount, int accountFrom, int accountTo);
+
+        void UpdateTransfer(int decision, int transferId);
 
     }
 }
