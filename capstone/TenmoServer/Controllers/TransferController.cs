@@ -33,6 +33,7 @@ namespace TenmoServer.Controllers
             return transferDao.GetAllTransfers(id);
         }
 
+        //Working 3/10/2022
         [HttpGet("{id}")]
         public ActionResult<Transfer> GetSpecificTransferById(int id)
         {
@@ -47,7 +48,20 @@ namespace TenmoServer.Controllers
                 return NotFound();
             }
         }
-
+        //Working 3/10/2022
+        [HttpPost()]
+        public ActionResult<Transfer> CreateTransfer(Transfer transfer)
+        {
+            Transfer newTransfer = transferDao.CreateTransfer(transfer);
+            if (newTransfer != null)
+            {
+                return Created($"/transfer/{newTransfer.TransferId}", newTransfer);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
 
     }
