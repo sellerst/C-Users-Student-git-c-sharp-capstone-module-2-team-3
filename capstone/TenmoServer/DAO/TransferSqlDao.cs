@@ -22,7 +22,7 @@ namespace TenmoServer.DAO
             List<Transfer> listOfAllTransfers = new List<Transfer>();
             try
             {
-                using (SqlConnection conn = new SqlConnection())
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 

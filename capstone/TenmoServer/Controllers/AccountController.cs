@@ -29,10 +29,10 @@ namespace TenmoServer.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Account> GetBalanceById(int id)
+        public ActionResult<Account> GetAccountById(int id)      // ***By userId
         {
             //int userId = Int32.Parse(User.FindFirst("sub")?.Value);
-            Account userAccount = accountDao.GetBalance(id);
+            Account userAccount = accountDao.GetAccount(id);
 
             if (userAccount != null)
             {
@@ -44,28 +44,28 @@ namespace TenmoServer.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public ActionResult SendMoney_UpdateReceiversBalance(decimal moneyToTransfer, int id)
-        {
+        //[HttpPut("{id}")]
+        //public ActionResult SendMoney_UpdateReceiversBalance(decimal moneyToTransfer, int id)
+        //{
             
-            Account toAccountTransfer = accountDao.GetBalance(id);
+        //    Account toAccountTransfer = accountDao.GetAccount(id);
 
-            if (toAccountTransfer == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                accountDao.SendMoney_UpdateReceiversBalance(moneyToTransfer, id);
-                return Ok();
-            }
-        }
+        //    if (toAccountTransfer == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        accountDao.SendMoney_UpdateReceiversBalance(moneyToTransfer, id);
+        //        return Ok();
+        //    }
+        //}
 
         [HttpPut("{id}")]
-        public ActionResult UpdateSendersBalance(decimal moneyToTransfer, int id)
+        public ActionResult UpdateSendersBalance(int id, Account updatedAccount)
         {
             //int userId = Int32.Parse(User.FindFirst("sub")?.Value);
-            Account toAccountTransfer = accountDao.GetBalance(id);
+            Account toAccountTransfer = accountDao.GetAccount(id);
 
             if (toAccountTransfer == null)
             {
@@ -73,7 +73,7 @@ namespace TenmoServer.Controllers
             }
             else
             {
-                accountDao.UpdateSendersBalance(moneyToTransfer, id);
+                accountDao.UpdateAccountBalance(updatedAccount);
                 return Ok();
             }
         }

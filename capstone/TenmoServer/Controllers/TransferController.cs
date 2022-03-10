@@ -9,7 +9,7 @@ using TenmoServer.Models;
 
 namespace TenmoServer.Controllers
 {
-    [Route("[controller]")]
+    [Route("transfer")]
     [ApiController]
     public class TransferController : ControllerBase
     {
@@ -22,10 +22,10 @@ namespace TenmoServer.Controllers
             transferDao = _transferDao;
         }
 
-        [HttpGet("/{id}/transfer")] //must determine url addy
+        [HttpGet("/account/{id}/transfer")] //must determine url addy
         public ActionResult<List<Transfer>> GetAllTransfersByUser(int id)
         {
-           Account refAccount = accountDao.GetBalance(id);
+           Account refAccount = accountDao.GetAccount(id);
             if(refAccount == null)
             {
                 return NotFound();

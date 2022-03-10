@@ -17,7 +17,7 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public Account GetBalance(int id)
+        public Account GetAccount(int id)
         {
             Account returnedAccount = null;
             try
@@ -25,7 +25,7 @@ namespace TenmoServer.DAO
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT balance FROM account WHERE user_id = @user_id", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT user_id, account_id, balance FROM account WHERE user_id = @user_id", conn);
                     cmd.Parameters.AddWithValue("@user_id", id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -48,50 +48,72 @@ namespace TenmoServer.DAO
         //I can't send more TE Bucks than I have in my account.
         //I can't send a zero or negative amount.
         //A Sending Transfer has an initial status of Approved.
-        public void SendMoney_UpdateReceiversBalance(decimal moneyToTransfer, int toAccountId) // account to void because update??
+        //public void SendMoney_UpdateReceiversBalance(decimal moneyToTransfer, int toAccountId) // account to void because update??
+        //{
+        //    //update
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
+
+        //            SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance + @moneytotransfer WHERE account_id = @Account_id;", conn);
+        //            cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
+        //            cmd.Parameters.AddWithValue("@Account_id", toAccountId);
+
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //    catch (SqlException)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        //public void UpdateSendersBalance(decimal moneyToTransfer, int fromAccountId)
+        //{
+        //    //update
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(connectionString))
+        //        {
+        //            conn.Open();
+
+        //            SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance - @moneytotransfer WHERE account_id = @Account_id", conn);
+        //            cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
+        //            cmd.Parameters.AddWithValue("@Account_id", fromAccountId);
+
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //    catch (SqlException)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        public bool UpdateAccountBalance(Account updatedAccount)
         {
-            //update
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using(SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance + @moneytotransfer WHERE account_id = @Account_id;", conn);
-                    cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
-                    cmd.Parameters.AddWithValue("@Account_id", toAccountId);
+                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = @balance WHERE user_id = @user_id", conn);
+                    cmd.Parameters.AddWithValue("@balance", updatedAccount.Balance);
+                    cmd.Parameters.AddWithValue("@user_id", updatedAccount.UserId);
 
-                    cmd.ExecuteNonQuery();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return (rowsAffected > 0);
                 }
             }
             catch (SqlException)
             {
+
                 throw;
             }
         }
-
-        public void UpdateSendersBalance(decimal moneyToTransfer, int fromAccountId)
-        {
-            //update
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("UPDATE account SET balance = balance - @moneytotransfer WHERE account_id = @Account_id", conn);
-                    cmd.Parameters.AddWithValue("@moneytotransfer", moneyToTransfer);
-                    cmd.Parameters.AddWithValue("@Account_id", fromAccountId);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-        }
-
 
         public List<Account> GetListOfUsers()
         {
@@ -103,7 +125,7 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("SELECT account_id, user_id FROM account", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT account_id, user_id, balance FROM account", conn);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
