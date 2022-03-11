@@ -81,7 +81,7 @@ namespace TenmoServer.DAO
 
                     SqlCommand cmd = new SqlCommand(@"INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount)
                                                     OUTPUT INSERTED.transfer_id
-                                                     VALUES(2, 1, @account_from, @account_to, @amount)", conn);
+                                                    VALUES(2, 2, @account_from, @account_to, @amount)", conn);
                     cmd.Parameters.AddWithValue("@account_from", newTransfer.AccountFrom);
                     cmd.Parameters.AddWithValue("@account_to", newTransfer.AccountTo);
                     cmd.Parameters.AddWithValue("@amount", newTransfer.Amount);
@@ -98,6 +98,7 @@ namespace TenmoServer.DAO
 
         }
 
+        //Step 7-9(If we have time)
         public void UpdateTransfer(int decision, int transferId)
         {
             int userDecision;

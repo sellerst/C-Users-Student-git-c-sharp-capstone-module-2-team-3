@@ -22,6 +22,7 @@ namespace TenmoServer.Controllers
             transferDao = _transferDao;
         }
 
+        //Working 3/10/2022
         [HttpGet("/account/{id}/transfer")] //must determine url addy
         public ActionResult<List<Transfer>> GetAllTransfersByUser(int id)
         {
