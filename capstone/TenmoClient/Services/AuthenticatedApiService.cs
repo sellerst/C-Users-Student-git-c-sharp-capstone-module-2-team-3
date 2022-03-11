@@ -101,6 +101,7 @@ namespace TenmoClient.Services
                 }
                 throw new HttpRequestException(message, response.ErrorException);
             }
+
         }
     }
 }

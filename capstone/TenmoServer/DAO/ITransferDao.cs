@@ -16,6 +16,7 @@ namespace TenmoServer.DAO
 
         Transfer CreateTransfer(Transfer newTransfer);
 
+        //Step 7-9(If we have time)
         void UpdateTransfer(int decision, int transferId);
 
     }

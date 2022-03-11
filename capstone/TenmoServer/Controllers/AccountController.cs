@@ -28,6 +28,7 @@ namespace TenmoServer.Controllers
             return accountDao.GetListOfUsers();
         }
 
+        //Working 3/10/2022
         [HttpGet("{id}")]
         public ActionResult<Account> GetAccountById(int id)      // ***By userId
         {
@@ -61,6 +62,7 @@ namespace TenmoServer.Controllers
         //    }
         //}
 
+        //Working 3/10/2022
         [HttpPut("{id}")]
         public ActionResult UpdateSendersBalance(int id, Account updatedAccount)
         {
