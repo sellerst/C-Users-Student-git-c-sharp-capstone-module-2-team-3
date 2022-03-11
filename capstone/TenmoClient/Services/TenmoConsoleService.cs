@@ -93,16 +93,23 @@ namespace TenmoClient.Services
             Console.WriteLine($"|Transfers                                 |");
             Console.WriteLine($"|ID           From/To                Amount|");
             Console.WriteLine($"|------------------------------------------|");
-            foreach (var item in transferList)
+            if (transferList.Count > 0)
             {
-                if (id == item.AccountTo)
+                foreach (var item in transferList)
                 {
-                    Console.WriteLine($"|{item.TransferId}     From:{item.AccountFrom}                ${item.Amount}|");
+                    if (id == item.AccountTo)
+                    {
+                        Console.WriteLine($"|{item.TransferId}     From:{item.AccountFrom}                ${item.Amount}|");
+                    }
+                    if (id == item.AccountFrom)
+                    {
+                        Console.WriteLine($"|{item.TransferId}     To:{item.AccountTo}                    ${item.Amount}|");
+                    }
                 }
-                if (id == item.AccountFrom)
-                {
-                    Console.WriteLine($"|{item.TransferId}     To:{item.AccountTo}                    ${item.Amount}|");
-                }
+            }
+            else
+            {
+                Console.WriteLine("You have no transfers!");
             }
             Console.WriteLine($"|------------------------------------------|");
             Console.WriteLine("---------");

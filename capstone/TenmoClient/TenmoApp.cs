@@ -73,17 +73,15 @@ namespace TenmoClient
 
             if (menuSelection == 1)
             {
-                // View your current balance                
-                Account account = tenmoApiService.GetAccount(tenmoApiService.UserId);
-                console.ViewAccountBalance(account.Balance);
+                // View your current balance
+                ShowBalance();
+                
             }
 
             if (menuSelection == 2)
             {
                 // View your past transfers
-                List<Transfer> transferList = tenmoApiService.GetAllTransfer(tenmoApiService.UserId);
-                Account account = tenmoApiService.GetAccount(tenmoApiService.UserId);
-                console.ViewAllTransfers(transferList, account.AccountId);
+                ShowTransfers();
                 TransferDetails();
             }
 
@@ -120,7 +118,7 @@ namespace TenmoClient
                 Account account = tenmoApiService.GetAccount(id);
                 if(account != null)
                 {
-                    console.PrintBalance(account);
+                    console.ViewAccountBalance(account.Balance);
                 }
             }
             catch (Exception ex)
@@ -134,10 +132,11 @@ namespace TenmoClient
         {
             try
             {
-                List<Transfer> listOfTransfers = tenmoApiService.GetAllPastTransfers(tenmoApiService.UserId);
+                List<Transfer> listOfTransfers = tenmoApiService.GetAllTransfer(tenmoApiService.UserId);
+                Account account = tenmoApiService.GetAccount(tenmoApiService.UserId);
                 if (listOfTransfers != null)
                 {
-                    console.PrintAllPastTransfers(listOfTransfers);
+                    console.ViewAllTransfers(listOfTransfers, account.AccountId);
                 }
             }
             catch (Exception ex)
