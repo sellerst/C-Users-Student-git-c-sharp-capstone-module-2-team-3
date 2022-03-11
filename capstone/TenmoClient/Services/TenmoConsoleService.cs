@@ -53,6 +53,29 @@ namespace TenmoClient.Services
 
         // Add application-specific UI methods here...
 
+        public void PrintBalance(Account account)
+        {
+            Console.WriteLine($"Your current account balance is: {account.Balance}");
+        }
+
+        public void PrintAllPastTransfers(List<Transfer> transfers)
+        {
+            Console.WriteLine("-------------------------------------------"); 
+            Console.WriteLine("Transfers");
+            Console.WriteLine("ID               From/To             Amount");
+            Console.WriteLine("-------------------------------------------");
+            if (transfers.Count > 0)
+            {
+                foreach (Transfer transfer in transfers)
+                {
+                    Console.WriteLine($"{transfer.TransferId}               {transfer.TransferTypeId}               {transfer.Amount}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("You have no transfers!");
+            }
+        }
 
     }
 }

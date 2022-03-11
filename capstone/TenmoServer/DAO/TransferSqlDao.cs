@@ -17,7 +17,7 @@ namespace TenmoServer.DAO
             connectionString = dbConnectionString;
         }
 
-        public List<Transfer> GetAllTransfers(int accountId)
+        public List<Transfer> GetAllTransfers(int userId)
         {
             List<Transfer> listOfAllTransfers = new List<Transfer>();
             try
@@ -26,8 +26,8 @@ namespace TenmoServer.DAO
                 {
                     conn.Open();
 
-                    SqlCommand command = new SqlCommand(@"SELECT * FROM transfer WHERE account_from = @accountId OR account_to = @accountId", conn);
-                    command.Parameters.AddWithValue("@accountId", accountId);
+                    SqlCommand command = new SqlCommand(@"SELECT transfer_id, transfer_type_id, account_from, account_to, amount FROM transfer WHERE account_from = @userId OR account_to = @userId", conn);
+                    command.Parameters.AddWithValue("@userId", userId);
 
                     SqlDataReader reader = command.ExecuteReader();
 

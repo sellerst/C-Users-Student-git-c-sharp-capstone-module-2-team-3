@@ -73,12 +73,14 @@ namespace TenmoClient
 
             if (menuSelection == 1)
             {
-                // View your current balance
+                // View your current balance ------------------------------ LOL YO IT IS WORKING! -TS, 3/10, 2300
+                ShowBalance();
             }
 
             if (menuSelection == 2)
             {
                 // View your past transfers
+                ShowTransfers();
             }
 
             if (menuSelection == 3)
@@ -104,6 +106,42 @@ namespace TenmoClient
             }
 
             return true;    // Keep the main menu loop going
+        }
+
+        private void ShowBalance()
+        {
+            try
+            {
+                int id = tenmoApiService.UserId;
+                Account account = tenmoApiService.GetAccount(id);
+                if(account != null)
+                {
+                    console.PrintBalance(account);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                console.PrintError(ex.Message);
+            }
+            console.Pause();
+        }
+        private void ShowTransfers()
+        {
+            try
+            {
+                List<Transfer> listOfTransfers = tenmoApiService.GetAllPastTransfers(tenmoApiService.UserId);
+                if (listOfTransfers != null)
+                {
+                    console.PrintAllPastTransfers(listOfTransfers);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                console.PrintError(ex.Message);
+            }
+            console.Pause();
         }
 
         private void Login()

@@ -48,7 +48,11 @@ namespace TenmoServer.Controllers
             }
         }
 
-
-
+        //[HttpPost]
+        //public ActionResult<Transfer> CreateTransfer(Transfer transfer)
+        //{
+        //    Transfer transfer = transferDao.CreateTransfer(transfer);
+        //    return Created($"/transfers/{}", added);
+        //}
     }
 }
