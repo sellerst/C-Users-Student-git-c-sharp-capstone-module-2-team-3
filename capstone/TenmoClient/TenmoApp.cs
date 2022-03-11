@@ -7,7 +7,7 @@ namespace TenmoClient
 {
     public class TenmoApp
     {
-        private readonly TenmoConsoleService console = new TenmoConsoleService();
+        private readonly TenmoConsoleService console = new TenmoConsoleService();     
         private readonly TenmoApiService tenmoApiService;
 
         public TenmoApp(string apiUrl)
@@ -73,14 +73,18 @@ namespace TenmoClient
 
             if (menuSelection == 1)
             {
-                // View your current balance ------------------------------ LOL YO IT IS WORKING! -TS, 3/10, 2300
-                ShowBalance();
+                // View your current balance                
+                Account account = tenmoApiService.GetAccount(tenmoApiService.UserId);
+                console.ViewAccountBalance(account.Balance);
             }
 
             if (menuSelection == 2)
             {
                 // View your past transfers
-                ShowTransfers();
+                List<Transfer> transferList = tenmoApiService.GetAllTransfer(tenmoApiService.UserId);
+                Account account = tenmoApiService.GetAccount(tenmoApiService.UserId);
+                console.ViewAllTransfers(transferList, account.AccountId);
+                TransferDetails();
             }
 
             if (menuSelection == 3)
@@ -196,5 +200,28 @@ namespace TenmoClient
             }
             console.Pause();
         }
+
+        private void TransferDetails()
+        {
+            int selection = console.PromptForInteger("Please enter transfer ID to view details (0 to cancel):", 0, int.MaxValue);
+            if (selection == 0)
+            {
+                return;
+            }
+            bool isTransferId = tenmoApiService.CheckTransfer(selection);
+            if (isTransferId)
+            {
+                Transfer specificTransfer = tenmoApiService.GetTransfer(selection);
+                console.TransfersDetails(specificTransfer);
+            }
+            else
+            {
+                console.PrintError("That Transfer Id does not exist or is incorrect.");
+            }
+            console.Pause();
+        }
+
+
+
     }
 }

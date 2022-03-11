@@ -53,28 +53,75 @@ namespace TenmoClient.Services
 
         // Add application-specific UI methods here...
 
-        public void PrintBalance(Account account)
+        public void ViewAccountBalance(decimal balance)
         {
-            Console.WriteLine($"Your current account balance is: {account.Balance}");
+            Console.Clear();
+            Console.WriteLine($"Your current account balance is: ${balance}");
+            Console.WriteLine("---------");
+            Console.ReadLine();
         }
 
-        public void PrintAllPastTransfers(List<Transfer> transfers)
+
+
+
+
+        //Need to figure out how this works with the API/Serverside of things.
+        public void ViewListOfUsers(List<Account> userList, int id)
         {
-            Console.WriteLine("-------------------------------------------"); 
-            Console.WriteLine("Transfers");
-            Console.WriteLine("ID               From/To             Amount");
-            Console.WriteLine("-------------------------------------------");
-            if (transfers.Count > 0)
+            Console.Clear();
+            Console.WriteLine("");
+            Console.WriteLine($"|-----------------Users--------------------|");
+            Console.WriteLine($"|   Id | Username                          |");
+            Console.WriteLine($"|------+-----------------------------------|");
+            foreach (var item in userList)
             {
-                foreach (Transfer transfer in transfers)
+                if (id != item.UserId)
                 {
-                    Console.WriteLine($"{transfer.TransferId}               {transfer.TransferTypeId}               {transfer.Amount}");
+                    Console.WriteLine($"|   {item.UserId} | {item.UserId}        |");
+                }                
+            }
+            Console.WriteLine($"|------------------------------------------|");
+            Console.WriteLine("---------");
+            Console.ReadLine();
+        }
+
+        public void ViewAllTransfers(List<Transfer> transferList, int id)
+        {
+            Console.Clear();
+            Console.WriteLine("");
+            Console.WriteLine($"|------------------------------------------|");
+            Console.WriteLine($"|Transfers                                 |");
+            Console.WriteLine($"|ID           From/To                Amount|");
+            Console.WriteLine($"|------------------------------------------|");
+            foreach (var item in transferList)
+            {
+                if (id == item.AccountTo)
+                {
+                    Console.WriteLine($"|{item.TransferId}     From:{item.AccountFrom}                ${item.Amount}|");
+                }
+                if (id == item.AccountFrom)
+                {
+                    Console.WriteLine($"|{item.TransferId}     To:{item.AccountTo}                    ${item.Amount}|");
                 }
             }
-            else
-            {
-                Console.WriteLine("You have no transfers!");
-            }
+            Console.WriteLine($"|------------------------------------------|");
+            Console.WriteLine("---------");
+            Console.ReadLine();
+        }
+
+        public void TransfersDetails(Transfer transferDetails)
+        {
+            Console.Clear();
+            Console.WriteLine("");
+            Console.WriteLine($"|------------------------------------------|");
+            Console.WriteLine($"|Transfer Details                          |");
+            Console.WriteLine($"|------+-----------------------------------|");
+            Console.WriteLine($"Id: {transferDetails.TransferId}");
+            Console.WriteLine($"From: {transferDetails.AccountFrom}");
+            Console.WriteLine($"To: {transferDetails.AccountTo}");
+            Console.WriteLine($"Type: {transferDetails.TransferTypeId}");
+            Console.WriteLine($"Status: {transferDetails.StatusId}");
+            Console.WriteLine($"Amount: {transferDetails.Amount}");
         }
 
     }
